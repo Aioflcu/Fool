@@ -1,0 +1,1011 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>I Love You — A Personal Page</title>
+
+  <!-- Google font -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --glass-bg: rgba(255,255,255,0.08);
+      --glass-border: rgba(255,255,255,0.12);
+      --accent: #ff5b84; /* used for small accents only */
+      --text-main: rgba(255,255,255,0.98);
+      --muted: rgba(255,255,255,0.85);
+      --card-radius: 16px;
+      --shadow: 0 8px 30px rgba(11,15,20,0.45);
+      --max-width: 1000px;
+    }
+
+    /* Full-page lovely wallpaper background (no flat color) */
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      color:var(--text-main);
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0.28), rgba(0,0,0,0.52)),
+        url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+    }
+
+    /* Container */
+    .wrap{
+      width:100%;
+      max-width:var(--max-width);
+      margin:20px;
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:28px;
+      align-items:start;
+    }
+
+    @media (max-width:980px){
+      .wrap{ grid-template-columns: 1fr; }
+    }
+
+    /* Glass card style */
+    .card{
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius:var(--card-radius);
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(8px) saturate(120%);
+      padding:24px;
+    }
+
+    /* Left column: hero and reasons */
+    .hero{
+      padding:28px;
+      border-radius:12px;
+    }
+
+    h1{
+      font-family: "Playfair Display", serif;
+      font-size: clamp(28px, 4vw, 42px);
+      margin:0 0 8px 0;
+      line-height:1.05;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle{
+      color:var(--muted);
+      margin:0 0 18px 0;
+      font-size:15px;
+    }
+
+    .lead{
+      font-size:16px;
+      margin-bottom:18px;
+      color:var(--muted);
+    }
+
+    .reasons{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-top:6px;
+    }
+
+    .reason{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+    }
+
+    .reason .dot{
+      min-width:44px;
+      height:44px;
+      border-radius:10px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      color:var(--text-main);
+      border:1px solid rgba(255,255,255,0.04);
+      flex-shrink:0;
+    }
+
+    .reason p{
+      margin:0;
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.4;
+    }
+
+    /* Right column: profile card / controls */
+    .side{
+      padding:22px;
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
+
+    .profile{
+      display:flex;
+      gap:14px;
+      align-items:center;
+    }
+
+    .avatar{
+      width:84px;
+      height:84px;
+      border-radius:14px;
+      overflow:hidden;
+      flex-shrink:0;
+      border:1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+    }
+
+    .avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+    .profile-info h3{
+      margin:0;
+      font-size:18px;
+      font-weight:700;
+    }
+
+    .profile-info p{ margin:4px 0 0 0; color:var(--muted); font-size:13px; }
+
+    /* Controls */
+    .controls{ display:flex; gap:10px; flex-wrap:wrap; }
+    button.btn{
+      border:0;
+      padding:10px 14px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:600;
+      font-size:14px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      color:var(--text-main);
+      border:1px solid rgba(255,255,255,0.06);
+      transition:transform .16s ease, box-shadow .16s ease;
+    }
+    button.btn:active{ transform:translateY(1px) }
+    button.primary{
+      background: linear-gradient(90deg, rgba(255,91,132,0.14), rgba(255,91,132,0.08));
+      border: 1px solid rgba(255,91,132,0.18);
+      box-shadow: 0 6px 18px rgba(255,91,132,0.06);
+    }
+
+    /* love meter */
+    .meter{
+      display:block;
+      height:14px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border-radius:10px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.05);
+    }
+    .meter > i{
+      display:block;
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, rgba(255,91,132,0.9), rgba(255,140,160,0.95));
+      border-radius:10px;
+      transition: width 800ms cubic-bezier(.2,.9,.3,1);
+      box-shadow: 0 6px 22px rgba(255,91,132,0.12) inset;
+    }
+
+    /* footer small */
+    .small{
+      font-size:12px;
+      color:rgba(255,255,255,0.75);
+    }
+
+    /* nice CTA area */
+    .cta{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      margin-top:10px;
+    }
+
+    /* heart confetti container */
+    .hearts{
+      position:fixed;
+      pointer-events:none;
+      inset:0;
+      z-index:10;
+    }
+
+    /* subtle floating hearts used on toggle */
+    .heart{
+      position:absolute;
+      width:22px;
+      height:22px;
+      transform-origin:center;
+      opacity:0;
+      will-change:transform, opacity;
+      background:transparent;
+    }
+    .heart svg{ width:100%; height:100%; display:block; filter:drop-shadow(0 6px 14px rgba(0,0,0,0.35)); }
+
+    /* Reason reveal animation */
+    .more-reasons{ max-height:0; overflow:hidden; transition:max-height .6s cubic-bezier(.2,.9,.3,1); }
+    .more-reasons.open{ max-height:1000px; }
+
+    /* subtle decorative line */
+    .divider{ height:1px; background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.06)); border-radius:2px; margin:12px 0; }
+
+    /* small editable area */
+    textarea{ width:100%; min-height:86px; resize:vertical; border-radius:10px; padding:12px; border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.02); color:var(--text-main); font-size:14px; }
+    .muted-note{ font-size:13px; color:var(--muted); margin-top:8px; }
+
+  </style>
+</head>
+<body>
+  <div class="wrap" role="main" aria-labelledby="page-title">
+    <section class="card hero" aria-label="Main love message">
+      <h1 id="page-title">I love you — and here's why.</h1>
+      <p class="subtitle">A page to say it beautifully: reasons, little details, and a playful obsession — all presented with care.</p>
+
+      <p class="lead">To the one who makes ordinary days feel like a favorite song — this page is a small, honest collection of things I love about you.</p>
+
+      <div class="reasons" aria-live="polite">
+        <div class="reason">
+          <div class="dot">01</div>
+          <p><strong>Your laugh</strong><br>— it’s a bright, accidental melody that makes everything lighter. I find myself waiting for it.</p>
+        </div>
+
+        <div class="reason">
+          <div class="dot">02</div>
+          <p><strong>Your kindness</strong><br>— the way you make room for others, even on your busiest days. It teaches me how to be softer, better.</p>
+        </div>
+
+        <div class="reason">
+          <div class="dot">03</div>
+          <p><strong>Your curiosity</strong><br>— you notice the small things, ask questions, and turn quiet moments into adventures.</p>
+        </div>
+
+        <div class="divider" aria-hidden="true"></div>
+
+        <!-- Collapsible extra reasons -->
+        <div id="moreReasons" class="more-reasons" aria-hidden="true">
+          <div class="reason">
+            <div class="dot">04</div>
+            <p><strong>Your courage</strong><br>— how you stand for what matters. It inspires me to take better chances and be braver.</p>
+          </div>
+
+          <div class="reason">
+            <div class="dot">05</div>
+            <p><strong>How you listen</strong><br>— not just with your ears but with your whole presence. You make me feel seen.</p>
+          </div>
+
+          <div class="reason">
+            <div class="dot">06</div>
+            <p><strong>Little rituals</strong><br>— the small habits only we know. They feel like secret codes that say: we belong.</p>
+          </div>
+        </div>
+
+        <div class="divider" aria-hidden="true"></div>
+
+        <div class="reason">
+          <div class="dot">Obs</div>
+          <p><strong>Why I'm obsessed (gently, intensely)</strong><br>— Because you are the first thought that makes my morning better and the last thought that keeps me smiling at night. Obsession here means deep attention: I notice, I remember, I protect.</p>
+        </div>
+
+      </div>
+
+      <div class="cta" style="margin-top:18px;">
+        <div style="display:flex; gap:8px; align-items:center;">
+          <button id="revealBtn" class="btn primary" aria-expanded="false">Reveal more reasons</button>
+          <button id="playTone" class="btn" title="Play a soft chime">Play chime</button>
+        </div>
+
+        <div style="text-align:right;">
+          <small class="small">Share this? Copy & paste the URL after saving locally.</small>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <label for="custom" class="muted-note">Want to add your own short message? (editable)</label>
+        <textarea id="custom" placeholder="Write a short, loving note she'll see...">You make me better in ways I didn't know I needed.</textarea>
+      </div>
+    </section>
+
+    <aside class="card side" aria-label="Profile and controls">
+      <div class="profile">
+        <div class="avatar" title="Her photo (replace if you like)">
+          <!-- You can replace this URL with her photo (if appropriate) -->
+          <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80" alt="Portrait-style wallpaper">
+        </div>
+
+        <div class="profile-info">
+          <h3>Your Love</h3>
+          <p>For the one who holds my small worlds.</p>
+        </div>
+      </div>
+
+      <div class="card" style="padding:14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+          <div>
+            <div class="small">Love meter</div>
+            <div class="muted-note">How overwhelming is my love? (move the slider)</div>
+          </div>
+          <div style="min-width:160px;">
+            <div class="meter" aria-hidden="true" title="Love meter">
+              <i id="meterFill" style="width:84%"></i>
+            </div>
+            <div style="display:flex; gap:8px; margin-top:10px; align-items:center;">
+              <input id="meterRange" type="range" min="0" max="100" value="84" style="width:100%" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="padding:14px;">
+        <div class="small">Little interactions</div>
+        <div class="controls" style="margin-top:10px;">
+          <button id="sendHeart" class="btn primary" title="Send a heart animation">Send a heart</button>
+          <button id="randomReason" class="btn" title="Add a fresh reason to the list">Add a fresh reason</button>
+          <button id="downloadBtn" class="btn" title="Save this page">Save HTML</button>
+        </div>
+        <p class="muted-note">Tip: Replace the images with your own for a personal touch.</p>
+      </div>
+
+      <div class="small" style="text-align:center; margin-top:auto;">Made with care — say it often.</div>
+    </aside>
+  </div>
+
+  <!-- hearts container -->
+  <div class="hearts" id="hearts"></div>
+
+  <script>
+    // --- Helper elements
+    const revealBtn = document.getElementById('revealBtn');
+    const more = document.getElementById('moreReasons');
+    const meterRange = document.getElementById('meterRange');
+    const meterFill = document.getElementById('meterFill');
+    const sendHeartBtn = document.getElementById('sendHeart');
+    const randomReasonBtn = document.getElementById('randomReason');
+    const reasonsContainer = document.querySelector('.reasons');
+    const playToneBtn = document.getElementById('playTone');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const heartsContainer = document.getElementById('hearts');
+
+    // Toggle reveal more reasons
+    revealBtn.addEventListener('click', () => {
+      const isOpen = more.classList.toggle('open');
+      revealBtn.textContent = isOpen ? 'Hide extra reasons' : 'Reveal more reasons';
+      revealBtn.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    // Love meter slider
+    meterRange.addEventListener('input', (e) => {
+      meterFill.style.width = e.target.value + '%';
+    });
+
+    // Random soft chime (WebAudio)
+    playToneBtn.addEventListener('click', async () => {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = 'sine';
+        o.frequency.value = 520;
+        g.gain.value = 0;
+        o.connect(g);
+        g.connect(ctx.destination);
+        const now = ctx.currentTime;
+        g.gain.setValueAtTime(0, now);
+        g.gain.linearRampToValueAtTime(0.05, now + 0.02);
+        o.start(now);
+        o.frequency.exponentialRampToValueAtTime(880, now + 0.35);
+        g.gain.exponentialRampToValueAtTime(0.0001, now + 0.7);
+        o.stop(now + 0.72);
+      } catch (err) {
+        console.warn('Audio not supported:', err);
+      }
+    });
+
+    // Create a SVG heart element at a random position and animate it
+    function spawnHeart(x = null, y = null){
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      const left = x === null ? (Math.random() * 70 + 10) : x;
+      const top  = y === null ? (Math.random() * 70 + 10) : y;
+      heart.style.left = left + '%';
+      heart.style.top  = top + '%';
+      heart.innerHTML = `
+        <svg viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M23.6 2C21.4 2 19.6 3.1 18.6 4.5 17.6 3.1 15.8 2 13.6 2 9.6 2 6.6 5 6.6 9c0 5.4 8.1 10.7 10 13 1.9-2.3 10-7.6 10-13 0-4-3-7-7-7z" fill="white" opacity="0.98"/>
+        </svg>`;
+      heartsContainer.appendChild(heart);
+
+      // Animate using Web Animations API for smoothness
+      const anim = heart.animate([
+        { transform: 'translateY(0) scale(0.6)', opacity: 0, offset: 0 },
+        { transform: 'translateY(-30px) scale(1.02)', opacity: 1, offset: 0.15 },
+        { transform: 'translateY(-110px) scale(1)', opacity: 0.02, offset: 1 }
+      ], {
+        duration: 1900 + Math.random() * 900,
+        easing: 'cubic-bezier(.2,.9,.3,1)'
+      });
+
+      anim.onfinish = () => heart.remove();
+    }
+
+    // Send a cluster of hearts
+    sendHeartBtn.addEventListener('click', () => {
+      for (let i=0;i<8;i++){
+        setTimeout(() => spawnHeart(null,null), i * 80);
+      }
+    });
+
+    // Add a fresh, heartfelt reason to the list (random from a small bank)
+    const bank = [
+      "Your steadiness — you are a quiet, reliable anchor when everything feels loud.",
+      "Your silly dances — they break the day and make me grin like a kid.",
+      "How you protect what matters — fierce but gentle.",
+      "When you talk about your dreams — the way your eyes light up is magnetic.",
+      "You make ordinary food taste like a celebration when we're together.",
+      "You forgive quickly and teach me the value of letting go.",
+      "You remember the small details that everyone else forgets."
+    ];
+
+    randomReasonBtn.addEventListener('click', () => {
+      const idx = Math.floor(Math.random()*bank.length);
+      const reasonText = bank[idx];
+      const count = reasonsContainer.querySelectorAll('.reason').length + 1;
+      const r = document.createElement('div');
+      r.className = 'reason';
+      r.innerHTML = `
+        <div class="dot">${String(count).padStart(2,'0')}</div>
+        <p><strong>New reason</strong><br>— ${reasonText}</p>
+      `;
+      // insert before the obs/last one (so it appears near the end)
+      reasonsContainer.appendChild(r);
+      // small visual nudge
+      r.animate([{ transform:'translateY(8px)', opacity:0 }, { transform:'translateY(0)', opacity:1 }], { duration:420, easing:'ease-out' });
+    });
+
+    // Download page as HTML file (simple client-side)
+    downloadBtn.addEventListener('click', () => {
+      const doc = '<!doctype html>\\n' + document.documentElement.outerHTML;
+      const blob = new Blob([doc], {type: 'text/html'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'i-love-you.html';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    // Accessibility: space/enter on send heart triggers click
+    sendHeartBtn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); sendHeartBtn.click(); }
+    });
+
+    // Small initial hearts for ambiance
+    for (let i=0;i<6;i++){
+      setTimeout(()=> spawnHeart(), i*350 + 80);
+    }
+
+    // Optional: Save custom text to localStorage so message persists on reload
+    const custom = document.getElementById('custom');
+    custom.addEventListener('input', () => localStorage.setItem('love_note', custom.value));
+    const saved = localStorage.getItem('love_note');
+    if (saved) custom.value = saved;
+
+    // End of script
+  </script>
+</body>
+</html><!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>I Love You — A Personal Page</title>
+
+  <!-- Google font -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --glass-bg: rgba(255,255,255,0.08);
+      --glass-border: rgba(255,255,255,0.12);
+      --accent: #ff5b84; /* used for small accents only */
+      --text-main: rgba(255,255,255,0.98);
+      --muted: rgba(255,255,255,0.85);
+      --card-radius: 16px;
+      --shadow: 0 8px 30px rgba(11,15,20,0.45);
+      --max-width: 1000px;
+    }
+
+    /* Full-page lovely wallpaper background (no flat color) */
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      color:var(--text-main);
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0.28), rgba(0,0,0,0.52)),
+        url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+    }
+
+    /* Container */
+    .wrap{
+      width:100%;
+      max-width:var(--max-width);
+      margin:20px;
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:28px;
+      align-items:start;
+    }
+
+    @media (max-width:980px){
+      .wrap{ grid-template-columns: 1fr; }
+    }
+
+    /* Glass card style */
+    .card{
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius:var(--card-radius);
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(8px) saturate(120%);
+      padding:24px;
+    }
+
+    /* Left column: hero and reasons */
+    .hero{
+      padding:28px;
+      border-radius:12px;
+    }
+
+    h1{
+      font-family: "Playfair Display", serif;
+      font-size: clamp(28px, 4vw, 42px);
+      margin:0 0 8px 0;
+      line-height:1.05;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle{
+      color:var(--muted);
+      margin:0 0 18px 0;
+      font-size:15px;
+    }
+
+    .lead{
+      font-size:16px;
+      margin-bottom:18px;
+      color:var(--muted);
+    }
+
+    .reasons{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-top:6px;
+    }
+
+    .reason{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+    }
+
+    .reason .dot{
+      min-width:44px;
+      height:44px;
+      border-radius:10px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      color:var(--text-main);
+      border:1px solid rgba(255,255,255,0.04);
+      flex-shrink:0;
+    }
+
+    .reason p{
+      margin:0;
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.4;
+    }
+
+    /* Right column: profile card / controls */
+    .side{
+      padding:22px;
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
+
+    .profile{
+      display:flex;
+      gap:14px;
+      align-items:center;
+    }
+
+    .avatar{
+      width:84px;
+      height:84px;
+      border-radius:14px;
+      overflow:hidden;
+      flex-shrink:0;
+      border:1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+    }
+
+    .avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+    .profile-info h3{
+      margin:0;
+      font-size:18px;
+      font-weight:700;
+    }
+
+    .profile-info p{ margin:4px 0 0 0; color:var(--muted); font-size:13px; }
+
+    /* Controls */
+    .controls{ display:flex; gap:10px; flex-wrap:wrap; }
+    button.btn{
+      border:0;
+      padding:10px 14px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:600;
+      font-size:14px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      color:var(--text-main);
+      border:1px solid rgba(255,255,255,0.06);
+      transition:transform .16s ease, box-shadow .16s ease;
+    }
+    button.btn:active{ transform:translateY(1px) }
+    button.primary{
+      background: linear-gradient(90deg, rgba(255,91,132,0.14), rgba(255,91,132,0.08));
+      border: 1px solid rgba(255,91,132,0.18);
+      box-shadow: 0 6px 18px rgba(255,91,132,0.06);
+    }
+
+    /* love meter */
+    .meter{
+      display:block;
+      height:14px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border-radius:10px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.05);
+    }
+    .meter > i{
+      display:block;
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, rgba(255,91,132,0.9), rgba(255,140,160,0.95));
+      border-radius:10px;
+      transition: width 800ms cubic-bezier(.2,.9,.3,1);
+      box-shadow: 0 6px 22px rgba(255,91,132,0.12) inset;
+    }
+
+    /* footer small */
+    .small{
+      font-size:12px;
+      color:rgba(255,255,255,0.75);
+    }
+
+    /* nice CTA area */
+    .cta{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      margin-top:10px;
+    }
+
+    /* heart confetti container */
+    .hearts{
+      position:fixed;
+      pointer-events:none;
+      inset:0;
+      z-index:10;
+    }
+
+    /* subtle floating hearts used on toggle */
+    .heart{
+      position:absolute;
+      width:22px;
+      height:22px;
+      transform-origin:center;
+      opacity:0;
+      will-change:transform, opacity;
+      background:transparent;
+    }
+    .heart svg{ width:100%; height:100%; display:block; filter:drop-shadow(0 6px 14px rgba(0,0,0,0.35)); }
+
+    /* Reason reveal animation */
+    .more-reasons{ max-height:0; overflow:hidden; transition:max-height .6s cubic-bezier(.2,.9,.3,1); }
+    .more-reasons.open{ max-height:1000px; }
+
+    /* subtle decorative line */
+    .divider{ height:1px; background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.06)); border-radius:2px; margin:12px 0; }
+
+    /* small editable area */
+    textarea{ width:100%; min-height:86px; resize:vertical; border-radius:10px; padding:12px; border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.02); color:var(--text-main); font-size:14px; }
+    .muted-note{ font-size:13px; color:var(--muted); margin-top:8px; }
+
+  </style>
+</head>
+<body>
+  <div class="wrap" role="main" aria-labelledby="page-title">
+    <section class="card hero" aria-label="Main love message">
+      <h1 id="page-title">I love you — and here's why.</h1>
+      <p class="subtitle">A page to say it beautifully: reasons, little details, and a playful obsession — all presented with care.</p>
+
+      <p class="lead">To the one who makes ordinary days feel like a favorite song — this page is a small, honest collection of things I love about you.</p>
+
+      <div class="reasons" aria-live="polite">
+        <div class="reason">
+          <div class="dot">01</div>
+          <p><strong>Your laugh</strong><br>— it’s a bright, accidental melody that makes everything lighter. I find myself waiting for it.</p>
+        </div>
+
+        <div class="reason">
+          <div class="dot">02</div>
+          <p><strong>Your kindness</strong><br>— the way you make room for others, even on your busiest days. It teaches me how to be softer, better.</p>
+        </div>
+
+        <div class="reason">
+          <div class="dot">03</div>
+          <p><strong>Your curiosity</strong><br>— you notice the small things, ask questions, and turn quiet moments into adventures.</p>
+        </div>
+
+        <div class="divider" aria-hidden="true"></div>
+
+        <!-- Collapsible extra reasons -->
+        <div id="moreReasons" class="more-reasons" aria-hidden="true">
+          <div class="reason">
+            <div class="dot">04</div>
+            <p><strong>Your courage</strong><br>— how you stand for what matters. It inspires me to take better chances and be braver.</p>
+          </div>
+
+          <div class="reason">
+            <div class="dot">05</div>
+            <p><strong>How you listen</strong><br>— not just with your ears but with your whole presence. You make me feel seen.</p>
+          </div>
+
+          <div class="reason">
+            <div class="dot">06</div>
+            <p><strong>Little rituals</strong><br>— the small habits only we know. They feel like secret codes that say: we belong.</p>
+          </div>
+        </div>
+
+        <div class="divider" aria-hidden="true"></div>
+
+        <div class="reason">
+          <div class="dot">Obs</div>
+          <p><strong>Why I'm obsessed (gently, intensely)</strong><br>— Because you are the first thought that makes my morning better and the last thought that keeps me smiling at night. Obsession here means deep attention: I notice, I remember, I protect.</p>
+        </div>
+
+      </div>
+
+      <div class="cta" style="margin-top:18px;">
+        <div style="display:flex; gap:8px; align-items:center;">
+          <button id="revealBtn" class="btn primary" aria-expanded="false">Reveal more reasons</button>
+          <button id="playTone" class="btn" title="Play a soft chime">Play chime</button>
+        </div>
+
+        <div style="text-align:right;">
+          <small class="small">Share this? Copy & paste the URL after saving locally.</small>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <label for="custom" class="muted-note">Want to add your own short message? (editable)</label>
+        <textarea id="custom" placeholder="Write a short, loving note she'll see...">You make me better in ways I didn't know I needed.</textarea>
+      </div>
+    </section>
+
+    <aside class="card side" aria-label="Profile and controls">
+      <div class="profile">
+        <div class="avatar" title="Her photo (replace if you like)">
+          <!-- You can replace this URL with her photo (if appropriate) -->
+          <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80" alt="Portrait-style wallpaper">
+        </div>
+
+        <div class="profile-info">
+          <h3>Your Love</h3>
+          <p>For the one who holds my small worlds.</p>
+        </div>
+      </div>
+
+      <div class="card" style="padding:14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+          <div>
+            <div class="small">Love meter</div>
+            <div class="muted-note">How overwhelming is my love? (move the slider)</div>
+          </div>
+          <div style="min-width:160px;">
+            <div class="meter" aria-hidden="true" title="Love meter">
+              <i id="meterFill" style="width:84%"></i>
+            </div>
+            <div style="display:flex; gap:8px; margin-top:10px; align-items:center;">
+              <input id="meterRange" type="range" min="0" max="100" value="84" style="width:100%" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="padding:14px;">
+        <div class="small">Little interactions</div>
+        <div class="controls" style="margin-top:10px;">
+          <button id="sendHeart" class="btn primary" title="Send a heart animation">Send a heart</button>
+          <button id="randomReason" class="btn" title="Add a fresh reason to the list">Add a fresh reason</button>
+          <button id="downloadBtn" class="btn" title="Save this page">Save HTML</button>
+        </div>
+        <p class="muted-note">Tip: Replace the images with your own for a personal touch.</p>
+      </div>
+
+      <div class="small" style="text-align:center; margin-top:auto;">Made with care — say it often.</div>
+    </aside>
+  </div>
+
+  <!-- hearts container -->
+  <div class="hearts" id="hearts"></div>
+
+  <script>
+    // --- Helper elements
+    const revealBtn = document.getElementById('revealBtn');
+    const more = document.getElementById('moreReasons');
+    const meterRange = document.getElementById('meterRange');
+    const meterFill = document.getElementById('meterFill');
+    const sendHeartBtn = document.getElementById('sendHeart');
+    const randomReasonBtn = document.getElementById('randomReason');
+    const reasonsContainer = document.querySelector('.reasons');
+    const playToneBtn = document.getElementById('playTone');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const heartsContainer = document.getElementById('hearts');
+
+    // Toggle reveal more reasons
+    revealBtn.addEventListener('click', () => {
+      const isOpen = more.classList.toggle('open');
+      revealBtn.textContent = isOpen ? 'Hide extra reasons' : 'Reveal more reasons';
+      revealBtn.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    // Love meter slider
+    meterRange.addEventListener('input', (e) => {
+      meterFill.style.width = e.target.value + '%';
+    });
+
+    // Random soft chime (WebAudio)
+    playToneBtn.addEventListener('click', async () => {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = 'sine';
+        o.frequency.value = 520;
+        g.gain.value = 0;
+        o.connect(g);
+        g.connect(ctx.destination);
+        const now = ctx.currentTime;
+        g.gain.setValueAtTime(0, now);
+        g.gain.linearRampToValueAtTime(0.05, now + 0.02);
+        o.start(now);
+        o.frequency.exponentialRampToValueAtTime(880, now + 0.35);
+        g.gain.exponentialRampToValueAtTime(0.0001, now + 0.7);
+        o.stop(now + 0.72);
+      } catch (err) {
+        console.warn('Audio not supported:', err);
+      }
+    });
+
+    // Create a SVG heart element at a random position and animate it
+    function spawnHeart(x = null, y = null){
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      const left = x === null ? (Math.random() * 70 + 10) : x;
+      const top  = y === null ? (Math.random() * 70 + 10) : y;
+      heart.style.left = left + '%';
+      heart.style.top  = top + '%';
+      heart.innerHTML = `
+        <svg viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M23.6 2C21.4 2 19.6 3.1 18.6 4.5 17.6 3.1 15.8 2 13.6 2 9.6 2 6.6 5 6.6 9c0 5.4 8.1 10.7 10 13 1.9-2.3 10-7.6 10-13 0-4-3-7-7-7z" fill="white" opacity="0.98"/>
+        </svg>`;
+      heartsContainer.appendChild(heart);
+
+      // Animate using Web Animations API for smoothness
+      const anim = heart.animate([
+        { transform: 'translateY(0) scale(0.6)', opacity: 0, offset: 0 },
+        { transform: 'translateY(-30px) scale(1.02)', opacity: 1, offset: 0.15 },
+        { transform: 'translateY(-110px) scale(1)', opacity: 0.02, offset: 1 }
+      ], {
+        duration: 1900 + Math.random() * 900,
+        easing: 'cubic-bezier(.2,.9,.3,1)'
+      });
+
+      anim.onfinish = () => heart.remove();
+    }
+
+    // Send a cluster of hearts
+    sendHeartBtn.addEventListener('click', () => {
+      for (let i=0;i<8;i++){
+        setTimeout(() => spawnHeart(null,null), i * 80);
+      }
+    });
+
+    // Add a fresh, heartfelt reason to the list (random from a small bank)
+    const bank = [
+      "Your steadiness — you are a quiet, reliable anchor when everything feels loud.",
+      "Your silly dances — they break the day and make me grin like a kid.",
+      "How you protect what matters — fierce but gentle.",
+      "When you talk about your dreams — the way your eyes light up is magnetic.",
+      "You make ordinary food taste like a celebration when we're together.",
+      "You forgive quickly and teach me the value of letting go.",
+      "You remember the small details that everyone else forgets."
+    ];
+
+    randomReasonBtn.addEventListener('click', () => {
+      const idx = Math.floor(Math.random()*bank.length);
+      const reasonText = bank[idx];
+      const count = reasonsContainer.querySelectorAll('.reason').length + 1;
+      const r = document.createElement('div');
+      r.className = 'reason';
+      r.innerHTML = `
+        <div class="dot">${String(count).padStart(2,'0')}</div>
+        <p><strong>New reason</strong><br>— ${reasonText}</p>
+      `;
+      // insert before the obs/last one (so it appears near the end)
+      reasonsContainer.appendChild(r);
+      // small visual nudge
+      r.animate([{ transform:'translateY(8px)', opacity:0 }, { transform:'translateY(0)', opacity:1 }], { duration:420, easing:'ease-out' });
+    });
+
+    // Download page as HTML file (simple client-side)
+    downloadBtn.addEventListener('click', () => {
+      const doc = '<!doctype html>\\n' + document.documentElement.outerHTML;
+      const blob = new Blob([doc], {type: 'text/html'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'i-love-you.html';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    // Accessibility: space/enter on send heart triggers click
+    sendHeartBtn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); sendHeartBtn.click(); }
+    });
+
+    // Small initial hearts for ambiance
+    for (let i=0;i<6;i++){
+      setTimeout(()=> spawnHeart(), i*350 + 80);
+    }
+
+    // Optional: Save custom text to localStorage so message persists on reload
+    const custom = document.getElementById('custom');
+    custom.addEventListener('input', () => localStorage.setItem('love_note', custom.value));
+    const saved = localStorage.getItem('love_note');
+    if (saved) custom.value = saved;
+
+    // End of script
+  </script>
+</body>
+</html>
